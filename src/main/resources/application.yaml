@@ -5,7 +5,7 @@ spring:
       client:
         registration:
           kakao:
-            client-id = test-code
+            client-id = test-code2
             redirect_uri = http://localhost:8080/oauth2/callback/kakao
             scope = account_email,profile_nickname
             client-name = Kakao
