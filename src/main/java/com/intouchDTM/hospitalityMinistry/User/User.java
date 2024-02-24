@@ -18,16 +18,22 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 @Table(name = "user_table")
-public class User {
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(unique = true)
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "phone number", unique = true)
+    private String phoneNumber;
+
+    @Column(name = "gender")
+    private UserGender userGender;
 
     @Column(unique = true)
     private String oauth2Id;
