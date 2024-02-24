@@ -1,7 +1,7 @@
 package com.intouchDTM.hospitalityMinistry.OAuth2;
 
-import com.intouchDTM.hospitalityMinistry.User.User;
-import com.intouchDTM.hospitalityMinistry.User.UserRole;
+import com.intouchDTM.hospitalityMinistry.User.Member;
+import com.intouchDTM.hospitalityMinistry.User.MemberRole;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -30,9 +30,9 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(UserRole.ROLE_MEMBER.name()));
-        UserPrincipal userPrincipal = new UserPrincipal(user.getId(), user.getEmail(), authorities);
+    public static UserPrincipal create(Member member, Map<String, Object> attributes) {
+        List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(MemberRole.ROLE_MEMBER.name()));
+        UserPrincipal userPrincipal = new UserPrincipal(member.getId(), member.getEmail(), authorities);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;
     }

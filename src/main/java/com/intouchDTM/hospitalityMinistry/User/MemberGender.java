@@ -1,5 +1,5 @@
 package com.intouchDTM.hospitalityMinistry.User;
 
-public enum UserGender {
+public enum MemberGender {
     MALE, FEMALE;
 }

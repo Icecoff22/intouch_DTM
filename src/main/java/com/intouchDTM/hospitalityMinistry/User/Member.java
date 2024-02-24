@@ -18,7 +18,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 @Table(name = "user_table")
-public class User extends BaseTimeEntity {
+public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +33,7 @@ public class User extends BaseTimeEntity {
     private String phoneNumber;
 
     @Column(name = "gender")
-    private UserGender userGender;
+    private MemberGender memberGender;
 
     @Column(unique = true)
     private String oauth2Id;
@@ -42,11 +42,11 @@ public class User extends BaseTimeEntity {
     private AuthProvider authProvider;
 
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private MemberRole role;
 
 
 
-    public User update(OAuth2UserInfo oAuth2UserInfo) {
+    public Member update(OAuth2UserInfo oAuth2UserInfo) {
         this.email = oAuth2UserInfo.getEmail();
         this.name = oAuth2UserInfo.getName();
         this.oauth2Id = oAuth2UserInfo.getOAuth2Id();

@@ -4,8 +4,8 @@ import com.intouchDTM.hospitalityMinistry.OAuth2.OAuth2UserInfo;
 import com.intouchDTM.hospitalityMinistry.OAuth2.OAuth2UserInfoFactory;
 import com.intouchDTM.hospitalityMinistry.OAuth2.UserPrincipal;
 import com.intouchDTM.hospitalityMinistry.User.AuthProvider;
-import com.intouchDTM.hospitalityMinistry.User.User;
-import com.intouchDTM.hospitalityMinistry.User.UserRepository;
+import com.intouchDTM.hospitalityMinistry.User.Member;
+import com.intouchDTM.hospitalityMinistry.User.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public OAuth2User loadUser (OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -35,33 +35,33 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             throw new RuntimeException("Email not found from OAuth2 provider");
         }
 
-        User user = userRepository.findByEmail(oAuth2UserInfo.getEmail()).orElse(null);
+        Member member = memberRepository.findByEmail(oAuth2UserInfo.getEmail()).orElse(null);
         //이미 가입된 경우
-        if (user != null) {
-            if (!user.getAuthProvider().equals(authProvider)) {
+        if (member != null) {
+            if (!member.getAuthProvider().equals(authProvider)) {
                 throw new RuntimeException("Email already signed up.");
             }
-            user = updateUser(user, oAuth2UserInfo);
+            member = updateUser(member, oAuth2UserInfo);
         }
         //가입되지 않은 경우
         else {
-            user = registerUser(authProvider, oAuth2UserInfo);
+            member = registerUser(authProvider, oAuth2UserInfo);
         }
-        return UserPrincipal.create(user, oAuth2UserInfo.getAttributes());
+        return UserPrincipal.create(member, oAuth2UserInfo.getAttributes());
     }
 
-    private User registerUser(AuthProvider authProvider, OAuth2UserInfo oAuth2UserInfo) {
-        User user = User.builder()
+    private Member registerUser(AuthProvider authProvider, OAuth2UserInfo oAuth2UserInfo) {
+        Member member = Member.builder()
                 .email(oAuth2UserInfo.getEmail())
                 .name(oAuth2UserInfo.getName())
                 .oauth2Id(oAuth2UserInfo.getOAuth2Id())
                 .authProvider(authProvider)
                 .build();
 
-        return userRepository.save(user);
+        return memberRepository.save(member);
     }
 
-    private User updateUser(User user, OAuth2UserInfo oAuth2UserInfo) {
-        return userRepository.save(user.update(oAuth2UserInfo));
+    private Member updateUser(Member member, OAuth2UserInfo oAuth2UserInfo) {
+        return memberRepository.save(member.update(oAuth2UserInfo));
     }
 }

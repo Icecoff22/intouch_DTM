@@ -3,7 +3,7 @@ package com.intouchDTM.hospitalityMinistry.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<User> findByEmail(String email);
+    Optional<Member> findByEmail(String email);
 }

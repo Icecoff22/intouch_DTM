@@ -1,7 +1,7 @@
 package com.intouchDTM.hospitalityMinistry.OAuth2;
 
 import com.intouchDTM.hospitalityMinistry.Jwt.JwtProvider;
-import com.intouchDTM.hospitalityMinistry.User.UserResponseDto;
+import com.intouchDTM.hospitalityMinistry.User.MemberResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Cookie;
@@ -47,7 +47,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
         //JWT 생성
-        UserResponseDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
+        MemberResponseDto.TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", tokenInfo.getAccessToken())

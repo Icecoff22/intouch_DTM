@@ -3,7 +3,7 @@ package com.intouchDTM.hospitalityMinistry.User;
 import lombok.Getter;
 
 @Getter
-public enum UserRole {
+public enum MemberRole {
     //간사님, 목사님, 기타 관리자
     ROLE_ADMIN("관리자"),
 
@@ -15,7 +15,7 @@ public enum UserRole {
 
     private final String description;
 
-    UserRole(String description) {
+    MemberRole(String description) {
         this.description = description;
     }
 }
